@@ -53,7 +53,7 @@ void printInfoTransaksi(list_transaksi L);
 address_transaksi alokasiTransaksi(infotype_transaksi x);
 void dealokasiTransaksi(address_transaksi &P);
 
-void addTransaksi(list_transaksi &L, address_transaksi P, address_pelanggan Q, address_sparepart R);
+void addTransaksi(list_transaksi &L, list_sparepart &LS, address_transaksi P, address_pelanggan Q, int nSparepart);
 void addSparepartTransaksi(list_transaksi &L, address_transaksi P, address_sparepart R);
 
 #endif // TRANSAKSI_H_INCLUDED

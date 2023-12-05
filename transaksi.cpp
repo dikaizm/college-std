@@ -1,5 +1,6 @@
 #include "transaksi.h"
 #include "pelanggan.h"
+#include "sparepart.h"
 
 void createListTransaksi(list_transaksi &L)
 {
