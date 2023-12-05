@@ -28,9 +28,15 @@ struct list_pelanggan {
     address_pelanggan first;
 };
 
-void createList(list_pelanggan &L);
-address_pelanggan alokasi(infotype_pelanggan x);
-void dealokasi(address_pelanggan &P);
-void insertLast(list_pelanggan &L, address_pelanggan P);
+void createListPelanggan(list_pelanggan &L);
+address_pelanggan alokasiPelanggan(infotype_pelanggan x);
+void dealokasiPelanggan(address_pelanggan &P);
+void insertPelanggan(list_pelanggan &L, address_pelanggan P);
+void deleteFirstPelanggan(list_pelanggan &L, address_pelanggan &P);
+void deleteLastPelanggan(list_pelanggan &L, address_pelanggan &P);
+void deleteAfterPelanggan(list_pelanggan &L, address_pelanggan Prec, address_pelanggan &P);
+
+address_pelanggan findPelanggan(list_pelanggan L, infotype_pelanggan x);
+void printInfoPelanggan(list_pelanggan L);
 
 #endif // PELANGGAN_H_INCLUDED
