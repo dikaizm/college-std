@@ -14,40 +14,43 @@ void dealokasiPelanggan(address_pelanggan &P){
 
 }
 void insertPelanggan(list_pelanggan &L, address_pelanggan P){
-    if (first(L) == NULL){
+    if (first(L) == NULL && last(L) == NULL){
         first(L) = P;
+        last(L) = P;
     }else{
-        address_pelanggan Q = first(L);
-        while (next(Q) != NULL){
-            Q = next(Q);
-        }
+        address_pelanggan Q = last(L);
         next(Q) = P;
+        last(L) = P;
     }
-
 }
 void deleteFirstPelanggan(list_pelanggan &L, address_pelanggan &P){
     if (first(L) != NULL){
         P = first(L);
         first(L) = next(P);
         next(P) = NULL;
+    } else if (first(L) == last(L)){
+        first(L) = NULL;
+        last(L) = NULL;
+    } else {
+        cout << "Data Pelanggan Kosong" << endl;
     }
 }
 void deleteLastPelanggan(list_pelanggan &L, address_pelanggan &P){
-    if (first(L) != NULL){
-        address_pelanggan Q = first(L);
-        while (next(next(Q)) != NULL){
-            Q = next(Q);
-        }
-        P = next(Q);
-        next(Q) = NULL;
+    if (first(L) != NULL && last(L) != NULL) {
+        P = last(L);
+        last(L) = prev(P);
+        next(last(L)) = NULL;
+        prev(P) = NULL;
+    } else {
+        cout << "Data Pelanggan Kosong" << endl;
     }
 }
 void deleteAfterPelanggan(list_pelanggan &L, address_pelanggan Prec, address_pelanggan &P){
-    if (first(L) != NULL){
-        P = next(Prec);
-        next(Prec) = next(P);
-        next(P) = NULL;
-    }
+    P = next(Prec);
+    next(Prec) = next(P);
+    prev(next(P)) = Prec;
+    next(P) = NULL;
+    prev(P) = NULL;
 }
 
 address_pelanggan findPelanggan(list_pelanggan L, infotype_pelanggan x){
@@ -70,5 +73,4 @@ void printInfoPelanggan(list_pelanggan L){
         P = next(P);
     }
     cout << "========================================================" << endl;
-
 }

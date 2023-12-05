@@ -40,7 +40,7 @@ void deleteFirstSparepart(list_sparepart &L, address_sparepart &P);
 void deleteLastSparepart(list_sparepart &L, address_sparepart &P);
 void deleteAfterSparepart(list_sparepart &L, address_sparepart Prec, address_sparepart &P);
 
-address_sparepart findSparepart(list_sparepart L, infotype_sparepart x);
+address_sparepart findSparepart(list_sparepart L, string kode);
 void printInfoSparepart(list_sparepart L);
 
 #endif // SPAREPART_H_INCLUDED

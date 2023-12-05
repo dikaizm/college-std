@@ -5,7 +5,9 @@
 using namespace std;
 
 #define first(L) L.first
+#define last(L) L.last
 #define next(P) P->next
+#define prev(P) P->prev
 #define info(P) P->info
 
 typedef struct pelanggan infotype_pelanggan;
@@ -22,10 +24,12 @@ struct pelanggan {
 struct elmlist_pelanggan {
     infotype_pelanggan info;
     address_pelanggan next;
+    address_pelanggan prev;
 };
 
 struct list_pelanggan {
     address_pelanggan first;
+    address_pelanggan last;
 };
 
 void createListPelanggan(list_pelanggan &L);
