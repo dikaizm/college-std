@@ -60,6 +60,8 @@ int main()
                     }
                 } else if (opsiS == 2) {
                     printInfoSparepart(LS);
+                } else if (opsiS == 0) {
+                    cout << "Kembali..." << endl;
                 } else {
                     cout << "Opsi " << opsiS << " tidak valid" << endl;
                 }
@@ -67,69 +69,108 @@ int main()
 
             cout << endl;
         } else if (opsi == 2) {
-            infotype_pelanggan infoP;
-            cout << "Masukkan data pelanggan: " << endl;
-            cout << "ID: ";
-            cin >> infoP.id;
-            cout << "Nama: ";
-            cin >> infoP.nama;
-            cout << "Alamat: ";
-            cin >> infoP.alamat;
-            cout << "No. Telphone: ";
-            cin >> infoP.no_telp;
-            cout << "Tipe Motor: ";
-            cin >> infoP.tipe_motor;
+            int opsiT = -1;
+            while (opsiT != 0) {
+                cout << "=================== TRANSAKSI ===================" << endl;
+                cout << "1. Tambah transaksi" << endl;
+                cout << "2. Lihat daftar transaksi" << endl;
+                cout << "0. Kembali" << endl;
 
-            address_pelanggan adrPelanggan = alokasiPelanggan(infoP);
-            // masukkan nama pelanggan
-            // cek apakah pelanggan sudah ada di list pelanggan
-            // jika ada, pakai address pelanggan
-            // jika tidak masukkan data pelanggan baru
+                cout << "Pilih menu: ";
+                cin >> opsiT;
+                if (opsiT == 1) {
+                    // masukkan nama dan no telp pelanggan
+                    infotype_pelanggan infoP;
+                    cout << "Masukkan data pelanggan: " << endl;
+                    cout << "ID: ";
+                    cin >> infoP.id;
+                    cout << "Nama: ";
+                    cin >> infoP.nama;
+                    cout << "No. Telepon: ";
+                    cin >> infoP.no_telp;
+                    infoP.alamat = "";
+                    infoP.tipe_motor = "";
 
-            infotype_transaksi infoT;
-            cout << "Masukkan data transaksi: " << endl;
-            cout << "No Transaksi: ";
-            cin >> infoT.no_transaksi;
-            cout << "Tanggal transaksi: ";
-            cin >> infoT.tgl_transaksi;
+                    // cek apakah pelanggan sudah ada di list pelanggan
+                    address_pelanggan adrPelanggan = findPelanggan(LP, infoP.nama, infoP.no_telp);
 
-            infoT.jumlah = 0;
-            infoT.harga = 0;
-            infoT.service = 0;
-            infoT.total = 0;
-            address_transaksi adrTransaksi = alokasiTransaksi(infoT);
+                    // jika tidak masukkan data pelanggan baru
+                    if (adrPelanggan == NULL) {
+                        cout << "Alamat: ";
+                        cin >> infoP.alamat;
+                        cout << "Tipe Motor: ";
+                        cin >> infoP.tipe_motor;
 
-            int nSparepart;
-            cout << "Berapa sparepart yang diganti? ";
-            cin >> nSparepart;
-            addTransaksi(LT, LS, adrTransaksi, adrPelanggan, nSparepart);
-        } else if (opsi == 3){
-            cout << "=================== PELANGGAN ===================" << endl;
-            printInfoPelanggan(LP);
+                        adrPelanggan = alokasiPelanggan(infoP);
+                        insertPelanggan(LP, adrPelanggan);
+                    }
 
-            cout << endl;
-            cout << "1. Edit Pelanggan" << endl;
-            cout << "2. Hapus Pelanggan" << endl;
-            cout << "0. Kembali" << endl;
+                    infotype_transaksi infoT;
+                    cout << "Masukkan data transaksi: " << endl;
+                    cout << "No Transaksi: ";
+                    cin >> infoT.no_transaksi;
+                    cout << "Tanggal transaksi: ";
+                    cin >> infoT.tgl_transaksi;
 
-            int opsiP;
-            cout << "Pilih menu: ";
-            cin >> opsiP;
-            string nama, no_telp;
-            if (opsiP == 1) {
-                editData(LP, nama, no_telp);
-            } else if (opsiP == 2) {
-               address_pelanggan pelanggan = findPelanggan(LP, nama, no_telp);
-                if (first(LP) == pelanggan){
-                    deleteFirstPelanggan(LP, pelanggan);
-                } else if (next(pelanggan)== NULL) {
-                    deleteLastPelanggan(LP, pelanggan);
+                    infoT.jumlah = 0;
+                    infoT.harga = 0;
+                    infoT.service = 0;
+                    infoT.total = 0;
+                    address_transaksi adrTransaksi = alokasiTransaksi(infoT);
+
+                    int nSparepart;
+                    cout << "Berapa sparepart yang diganti? ";
+                    cin >> nSparepart;
+                    addTransaksi(LT, LS, adrTransaksi, adrPelanggan, nSparepart);
+                } else if (opsiT == 2) {
+                    printInfoTransaksi(LT);
+                } else if (opsiT == 0) {
+                    cout << "Kembali..." << endl;
                 } else {
-                    address_pelanggan prec;
-                    deleteAfterPelanggan(LP, prec, pelanggan);
+                    cout << "Opsi " << opsiT << " tidak valid" << endl;
                 }
-            } else {
-                cout << "Opsi " << opsiP << " tidak valid" << endl;
+            }
+
+        } else if (opsi == 3){
+            int opsiP = -1;
+            string nama, no_telp;
+            while (opsiP != 0) {
+                cout << "=================== PELANGGAN ===================" << endl;
+                printInfoPelanggan(LP);
+                cout << endl;
+                cout << "1. Edit Pelanggan" << endl;
+                cout << "2. Hapus Pelanggan" << endl;
+                cout << "0. Kembali" << endl;
+                cout << "pilih menu : ";
+                cin >> opsiP;
+                if (opsiP == 1) {
+                    string nama, no_telp;
+                    cout << "Nama: ";
+                    cin >> nama;
+                    cout << "No telp: ";
+                    cin >> no_telp;
+                    editData(LP, nama, no_telp);
+                } else if (opsiP == 2) {
+                    string nama, no_telp;
+                    cout << "Nama: ";
+                    cin >> nama;
+                    cout << "No telp: ";
+                    cin >> no_telp;
+                    address_pelanggan pelanggan = findPelanggan(LP, nama, no_telp);
+                    if (first(LP) == pelanggan){
+                        deleteFirstPelanggan(LP, pelanggan);
+                    } else if (next(pelanggan)== NULL) {
+                        deleteLastPelanggan(LP, pelanggan);
+                    } else {
+                        address_pelanggan prec;
+                        deleteAfterPelanggan(LP, prec, pelanggan);
+                    }
+                    printInfoPelanggan(LP);
+                } else if (opsiP == 0) {
+                    cout << "Kembali..." << endl;
+                } else {
+                    cout << "Opsi " << opsiP << " tidak valid" << endl;
+                }
             }
 
         } else {

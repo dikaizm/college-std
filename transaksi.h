@@ -39,10 +39,6 @@ struct elmlist_sparepart_transaksi {
     address_sparepart item;
 };
 
-struct list_sparepart_transaksi {
-    address_sparepart_transaksi first;
-};
-
 struct list_transaksi {
     address_transaksi first;
 };
@@ -56,7 +52,6 @@ address_transaksi findTransaksi(list_transaksi L, infotype_transaksi x);
 void printInfoTransaksi(list_transaksi L);
 address_transaksi alokasiTransaksi(infotype_transaksi x);
 void dealokasiTransaksi(address_transaksi &P);
-void createListSparepartTransaksi(list_sparepart_transaksi &LST);
 address_sparepart_transaksi alokasiSparepartTransaksi(address_sparepart adrSparepart);
 void addTransaksi(list_transaksi &L, list_sparepart &LS, address_transaksi P, address_pelanggan Q, int nSparepart);
 void addSparepartTransaksi(address_transaksi T, address_sparepart adrSparepart);

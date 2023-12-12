@@ -101,17 +101,12 @@ void printInfoTransaksi(list_transaksi L)
     }
 }
 
-void createListSparepartTransaksi(list_sparepart_transaksi &LST){
-    first(LST) == NULL;
-}
 void addTransaksi(list_transaksi &L, list_sparepart &LS, address_transaksi transaksi, address_pelanggan adrPelanggan, int nSparepart)
 {
     insertTransaksi(L, transaksi);
     pelanggan(transaksi) = adrPelanggan;
-    address_sparepart S;
+    sparepart(transaksi) = NULL;
     string kode;
-    list_sparepart_transaksi LST;
-    createListSparepartTransaksi(LST);
 
     info(transaksi).jumlah = nSparepart;
     for (int i = 0; i < nSparepart; i++)
@@ -125,15 +120,13 @@ void addTransaksi(list_transaksi &L, list_sparepart &LS, address_transaksi trans
             if (info(sparepart).stok == 0) {
                 cout << "Stok " << info(sparepart).nama << " kosong";
             } else {
-                address_sparepart s = first(LS);
-                while (s != NULL){
-                    cout << "harga : " << info(sparepart).harga << endl;
-                    cout << "service fee : " << info(sparepart).service_fee << endl;
-                    cout << "stok : " << info(sparepart).stok << endl;
-                    s = next(s);
-                }
+                cout << "Harga : " << info(sparepart).harga << endl;
+                cout << "Service fee : " << info(sparepart).service_fee << endl;
+                cout << "Stok : " << info(sparepart).stok << endl;
+
                 info(transaksi).harga += info(sparepart).harga;
                 info(transaksi).service += info(sparepart).service_fee;
+                info(transaksi).total = info(transaksi).total + info(transaksi).harga + info(transaksi).service;
                 info(sparepart).stok -= 1;
                 addSparepartTransaksi(transaksi, sparepart);
             }

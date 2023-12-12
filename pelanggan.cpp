@@ -72,11 +72,14 @@ void deleteAfterPelanggan(list_pelanggan &L, address_pelanggan Prec, address_pel
 address_pelanggan findPelanggan(list_pelanggan L, string nama, string no_telp)
 {
     address_pelanggan P = first(L);
-    while (P != NULL && info(P).nama != nama && info(P).no_telp != no_telp)
+    while (P != NULL)
     {
+        if (info(P).nama == nama && info(P).no_telp == no_telp) {
+            return P;
+        }
         P = next(P);
     }
-    return P;
+    return NULL;
 }
 
 void printInfoPelanggan(list_pelanggan L)
@@ -96,7 +99,7 @@ void printInfoPelanggan(list_pelanggan L)
     cout << "========================================================" << endl;
 }
 address_pelanggan editData(list_pelanggan &LP, string nama, string no_telp){
-    int opsi;
+    int opsip;
     address_pelanggan pelanggan = findPelanggan(LP, nama, no_telp);
     if (pelanggan != NULL){
         cout << "Bagian yang ingin diedit :" << endl;
@@ -104,21 +107,22 @@ address_pelanggan editData(list_pelanggan &LP, string nama, string no_telp){
         cout << "2. Alamat Pelanggan" << endl;
         cout << "3. No. Telphone Pelanggan" << endl;
         cout << "4. Tipe Motor Pelanggan" << endl;
-        cin >> opsi;
-        if (opsi == 1){
+        cout << "masukan opsi :" ;
+        cin >> opsip;
+        if (opsip == 1){
             cout << "Nama pelanggan baru :" << endl;
             cin >> info(pelanggan).nama;
-        } else if(opsi == 2){
+        } else if(opsip == 2){
             cout << "Alamat Pelanggan :" << endl;
             cin >> info(pelanggan).alamat;
-        } else if(opsi == 3){
+        } else if(opsip == 3){
             cout << "No. Telephone Pelanggan yang baru :" << endl;
             cin >> info(pelanggan).no_telp;
-        } else if (opsi == 4){
+        } else if (opsip == 4){
             cout << "Tipe Motor Pelanggan yang baru :" << endl;
             cin >> info(pelanggan).tipe_motor;
         } else {
-            cout << "opsi" << opsi << " tidak valid" << endl;
+            cout << "opsi" << opsip << " tidak valid" << endl;
         }
     } else {
         cout << "Data Pelanggan tidak ditemukan" << endl;
