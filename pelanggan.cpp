@@ -69,10 +69,10 @@ void deleteAfterPelanggan(list_pelanggan &L, address_pelanggan Prec, address_pel
     }
 }
 
-address_pelanggan findPelanggan(list_pelanggan L, infotype_pelanggan x)
+address_pelanggan findPelanggan(list_pelanggan L, string nama, string no_telp)
 {
     address_pelanggan P = first(L);
-    while (P != NULL && info(P).id != x.id)
+    while (P != NULL && info(P).nama != nama && info(P).no_telp != no_telp)
     {
         P = next(P);
     }
@@ -94,4 +94,33 @@ void printInfoPelanggan(list_pelanggan L)
         P = next(P);
     }
     cout << "========================================================" << endl;
+}
+address_pelanggan editData(list_pelanggan &LP, string nama, string no_telp){
+    int opsi;
+    address_pelanggan pelanggan = findPelanggan(LP, nama, no_telp);
+    if (pelanggan != NULL){
+        cout << "Bagian yang ingin diedit :" << endl;
+        cout << "1. Nama Pelanggan" << endl;
+        cout << "2. Alamat Pelanggan" << endl;
+        cout << "3. No. Telphone Pelanggan" << endl;
+        cout << "4. Tipe Motor Pelanggan" << endl;
+        cin >> opsi;
+        if (opsi == 1){
+            cout << "Nama pelanggan baru :" << endl;
+            cin >> info(pelanggan).nama;
+        } else if(opsi == 2){
+            cout << "Alamat Pelanggan :" << endl;
+            cin >> info(pelanggan).alamat;
+        } else if(opsi == 3){
+            cout << "No. Telephone Pelanggan yang baru :" << endl;
+            cin >> info(pelanggan).no_telp;
+        } else if (opsi == 4){
+            cout << "Tipe Motor Pelanggan yang baru :" << endl;
+            cin >> info(pelanggan).tipe_motor;
+        } else {
+            cout << "opsi" << opsi << " tidak valid" << endl;
+        }
+    } else {
+        cout << "Data Pelanggan tidak ditemukan" << endl;
+    }
 }

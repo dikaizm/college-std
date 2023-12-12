@@ -7,6 +7,22 @@ void createListTransaksi(list_transaksi &L)
     first(L) = NULL;
 }
 
+address_transaksi alokasiTransaksi(infotype_transaksi x)
+{
+    address_transaksi P = new elmlist_transaksi;
+    info(P) = x;
+    next(P) = NULL;
+    return P;
+}
+
+address_sparepart_transaksi alokasiSparepartTransaksi(address_sparepart adrSparepart)
+{
+    address_sparepart_transaksi S = new elmlist_sparepart_transaksi;
+    next(S) = NULL;
+    item(S) = adrSparepart;
+    return S;
+}
+
 void insertTransaksi(list_transaksi &L, address_transaksi P)
 {
     if (first(L) == NULL)
@@ -85,39 +101,65 @@ void printInfoTransaksi(list_transaksi L)
     }
 }
 
-void addTransaksi(list_transaksi &L, list_sparepart &LS, address_transaksi P, address_pelanggan Q, int nSparepart)
+void createListSparepartTransaksi(list_sparepart_transaksi &LST){
+    first(LST) == NULL;
+}
+void addTransaksi(list_transaksi &L, list_sparepart &LS, address_transaksi transaksi, address_pelanggan adrPelanggan, int nSparepart)
 {
-    insertTransaksi(L, P);
-    pelanggan(P) = Q;
+    insertTransaksi(L, transaksi);
+    pelanggan(transaksi) = adrPelanggan;
+    address_sparepart S;
     string kode;
+    list_sparepart_transaksi LST;
+    createListSparepartTransaksi(LST);
 
-// input jumlah sparepart
+    info(transaksi).jumlah = nSparepart;
     for (int i = 0; i < nSparepart; i++)
     {
-        // masukkan kode sparepart
+        cout << "Masukkan kode sparepart: ";
         cin >> kode;
-        // find address sparepart
-        address_sparepart R = findSparepart(LS, kode);
-        addSparepartTransaksi(L, P, R);
+        // Mencari address sparepart berdasarkan kode
+        address_sparepart sparepart = findSparepart(LS, kode);
+
+        if (sparepart != NULL){
+            if (info(sparepart).stok == 0) {
+                cout << "Stok " << info(sparepart).nama << " kosong";
+            } else {
+                address_sparepart s = first(LS);
+                while (s != NULL){
+                    cout << "harga : " << info(sparepart).harga << endl;
+                    cout << "service fee : " << info(sparepart).service_fee << endl;
+                    cout << "stok : " << info(sparepart).stok << endl;
+                    s = next(s);
+                }
+                info(transaksi).harga += info(sparepart).harga;
+                info(transaksi).service += info(sparepart).service_fee;
+                info(sparepart).stok -= 1;
+                addSparepartTransaksi(transaksi, sparepart);
+            }
+        } else {
+            cout << "Sparepart " << kode << " tidak ditemukan!" << endl;
+        }
     }
 }
 
-void addSparepartTransaksi(list_transaksi &L, address_transaksi P, address_sparepart R)
+void addSparepartTransaksi(address_transaksi T, address_sparepart adrSparepart)
 {
-    address_sparepart_transaksi S = new elmlist_sparepart_transaksi;
-    next(S) = NULL;
-    item(S) = R;
-    if (sparepart(P) == NULL)
+    address_sparepart_transaksi ST = alokasiSparepartTransaksi(adrSparepart);
+
+    // Jika list sparepart yang dibeli kosong, masukkan sebagai elemen pertama
+    if (sparepart(T) == NULL)
     {
-        sparepart(P) = S;
+        sparepart(T) = ST;
     }
+    // Jika tidak kosong, masukkan sebagai elemen terakhir
     else
     {
-        address_sparepart_transaksi Q = sparepart(P);
+        address_sparepart_transaksi Q = sparepart(T);
         while (next(Q) != NULL)
         {
             Q = next(Q);
         }
-        next(Q) = S;
+        next(Q) = ST;
     }
 }

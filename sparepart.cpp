@@ -99,11 +99,15 @@ void deleteAfterSparepart(list_sparepart &L, address_sparepart Prec, address_spa
 address_sparepart findSparepart(list_sparepart L, string kode)
 {
     address_sparepart P = first(L);
-    while (P != NULL && info(P).kode != kode)
+    while (P != NULL)
     {
+        if (info(P).kode == kode) {
+            return P;
+        }
         P = next(P);
     }
-    return P;
+
+    return NULL;
 }
 
 void printInfoSparepart(list_sparepart L)
