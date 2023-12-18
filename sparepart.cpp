@@ -124,5 +124,34 @@ void printInfoSparepart(list_sparepart L)
         cout << endl;
         P = next(P);
     }
-    cout << "=========================================================" << endl;
+}
+address_sparepart editDataSparepart(list_sparepart &LP, string kode){
+    int opsis;
+    address_sparepart sparepart = findSparepart(LP, kode);
+    if (sparepart != NULL){
+        cout << "Bagian yang ingin diedit :" << endl;
+        cout << "1. Nama Sparepart" << endl;
+        cout << "2. Harga Sparepart" << endl;
+        cout << "3. Stok Sparepart" << endl;
+        cout << "4. Service Fee Sparepart" << endl;
+        cout << "masukkan opsi :" ;
+        cin >> opsis;
+        if (opsis == 1){
+            cout << "Nama Sparepart Baru : ";
+            cin >> info(sparepart).nama;
+        } else if(opsis == 2){
+            cout << "Harga Sparepart : ";
+            cin >> info(sparepart).harga;
+        } else if(opsis == 3){
+            cout << "Stok Sparepart baru :" ;
+            cin >> info(sparepart).stok;
+        } else if (opsis == 4){
+            cout << "Service Fee Sparepart baru :";
+            cin >> info(sparepart).service_fee;
+        } else {
+            cout << "opsi" << opsis << " tidak valid" << endl;
+        }
+    } else {
+        cout << "Data Sparepart tidak ditemukan" << endl;
+    }
 }

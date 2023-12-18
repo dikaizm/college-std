@@ -90,15 +90,15 @@ void printInfoPelanggan(list_pelanggan L)
     {
         cout << "ID Pelanggan : " << info(P).id << endl;
         cout << "Nama Pelanggan : " << info(P).nama << endl;
-        cout << "Alamat Pelanggan : " << info(P).alamat << endl;
         cout << "No. Telp Pelanggan : " << info(P).no_telp << endl;
+         cout << "Alamat Pelanggan : " << info(P).alamat << endl;
         cout << "Tipe Motor Pelanggan : " << info(P).tipe_motor << endl;
         cout << endl;
         P = next(P);
     }
     cout << "========================================================" << endl;
 }
-address_pelanggan editData(list_pelanggan &LP, string nama, string no_telp){
+address_pelanggan editDataPelanggan(list_pelanggan &LP, string nama, string no_telp){
     int opsip;
     address_pelanggan pelanggan = findPelanggan(LP, nama, no_telp);
     if (pelanggan != NULL){

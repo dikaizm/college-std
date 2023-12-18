@@ -35,7 +35,7 @@ void insertPelanggan(list_pelanggan &L, address_pelanggan P);
 void deleteFirstPelanggan(list_pelanggan &L, address_pelanggan &P);
 void deleteLastPelanggan(list_pelanggan &L, address_pelanggan &P);
 void deleteAfterPelanggan(list_pelanggan &L, address_pelanggan Prec, address_pelanggan &P);
-address_pelanggan editData(list_pelanggan &LP, string nama, string no_telp);
+address_pelanggan editDataPelanggan(list_pelanggan &LP, string nama, string no_telp);
 address_pelanggan findPelanggan(list_pelanggan L, string nama, string no_telp);
 void printInfoPelanggan(list_pelanggan L);
 

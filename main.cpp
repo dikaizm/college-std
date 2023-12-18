@@ -32,16 +32,19 @@ int main()
                 cout << "=================== SPAREPART ===================" << endl;
                 cout << "1. Tambah sparepart" << endl;
                 cout << "2. Lihat daftar sparepart" << endl;
+                cout << "3. Edit Data Sparepart" << endl;
+                cout << "4. Hapus Data Sparepart"<< endl;
                 cout << "0. Kembali" << endl;
 
                 cout << "Pilih menu: ";
                 cin >> opsiS;
                 if (opsiS == 1) {
                     int nSparepart;
-                    infotype_sparepart infoS;
+
                     cout << "Masukkan jumlah sparepart baru: ";
                     cin >> nSparepart;
                     for (int i = 0; i < nSparepart; i++) {
+                        infotype_sparepart infoS;
                         cout << "----------------------" << endl;
                         cout << "Input ke-" << i+1 << endl;
                         cout << "Masukkan data sparepart baru:" << endl;
@@ -60,7 +63,26 @@ int main()
                     }
                 } else if (opsiS == 2) {
                     printInfoSparepart(LS);
-                } else if (opsiS == 0) {
+                } else if (opsiS == 3){
+                    string kode;
+                    cout << "masukkan kode : ";
+                    cin >> kode;
+                    editDataSparepart(LS, kode);
+                } else if(opsiS == 4){
+                    string kode;
+                    cout << "masukkan kode : ";
+                    cin >> kode;
+                    address_sparepart sparepart = findSparepart(LS,kode);
+                    if (first(LS) == sparepart){
+                        deleteFirstSparepart(LS, sparepart);
+                    } else if (next(sparepart)== NULL) {
+                        deleteLastSparepart(LS, sparepart);
+                    } else {
+                        address_sparepart prec;
+                        deleteAfterSparepart(LS, prec, sparepart);
+                    }
+                    printInfoSparepart(LS);
+                }else if (opsiS == 0) {
                     cout << "Kembali..." << endl;
                 } else {
                     cout << "Opsi " << opsiS << " tidak valid" << endl;
@@ -74,6 +96,8 @@ int main()
                 cout << "=================== TRANSAKSI ===================" << endl;
                 cout << "1. Tambah transaksi" << endl;
                 cout << "2. Lihat daftar transaksi" << endl;
+                cout << "3. Edit Data Transaksi" << endl;
+                cout << "4. Hapus Data Transaksi" << endl;
                 cout << "0. Kembali" << endl;
 
                 cout << "Pilih menu: ";
@@ -145,16 +169,16 @@ int main()
                 cin >> opsiP;
                 if (opsiP == 1) {
                     string nama, no_telp;
-                    cout << "Nama: ";
+                    cout << "Masukkan Nama: ";
                     cin >> nama;
-                    cout << "No telp: ";
+                    cout << "Masukkan No. Telp: ";
                     cin >> no_telp;
-                    editData(LP, nama, no_telp);
+                    editDataPelanggan(LP, nama, no_telp);
                 } else if (opsiP == 2) {
                     string nama, no_telp;
-                    cout << "Nama: ";
+                    cout << "Masukkan Nama : ";
                     cin >> nama;
-                    cout << "No telp: ";
+                    cout << "Masukkan No. Telp : ";
                     cin >> no_telp;
                     address_pelanggan pelanggan = findPelanggan(LP, nama, no_telp);
                     if (first(LP) == pelanggan){

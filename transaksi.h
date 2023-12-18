@@ -42,7 +42,9 @@ struct elmlist_sparepart_transaksi {
 struct list_transaksi {
     address_transaksi first;
 };
-
+struct list_sparepart_transaksi {
+    address_sparepart_transaksi first;
+};
 void createListTransaksi(list_transaksi &L);
 void insertLast(list_transaksi &L, address_transaksi P);
 void deleteFirstTransaksi(list_transaksi &L, address_transaksi &P);
@@ -54,6 +56,13 @@ address_transaksi alokasiTransaksi(infotype_transaksi x);
 void dealokasiTransaksi(address_transaksi &P);
 address_sparepart_transaksi alokasiSparepartTransaksi(address_sparepart adrSparepart);
 void addTransaksi(list_transaksi &L, list_sparepart &LS, address_transaksi P, address_pelanggan Q, int nSparepart);
-void addSparepartTransaksi(address_transaksi T, address_sparepart adrSparepart);
+void addSparepartTransaksi(list_sparepart_transaksi &LST, address_transaksi T, address_sparepart adrSparepart);
+address_transaksi editDataTransaksi(list_transaksi &LT, string no_transaksi);
+address_sparepart_transaksi hapusListST(list_sparepart_transaksi &LST, string kode);
+address_sparepart_transaksi findSparepartTransaksi(list_sparepart_transaksi LST, string kode);
+void insertListSparepartTransaksi(list_sparepart_transaksi &LST, address_sparepart_transaksi P);
+void deleteAfterListST(list_sparepart_transaksi &LST, address_sparepart_transaksi Prec, address_sparepart_transaksi &P);
+void deleteLastListST(list_sparepart_transaksi &LST, address_sparepart_transaksi &P);
+void deleteFirstlistST(list_sparepart_transaksi &LST, address_sparepart_transaksi &P);
 
 #endif // TRANSAKSI_H_INCLUDED
