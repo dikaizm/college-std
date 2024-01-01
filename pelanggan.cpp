@@ -88,11 +88,11 @@ void printInfoPelanggan(list_pelanggan L)
     cout << "=================== DAFTAR PELANGGAN ===================" << endl;
     while (P != NULL)
     {
-        cout << "ID Pelanggan : " << info(P).id << endl;
-        cout << "Nama Pelanggan : " << info(P).nama << endl;
-        cout << "No. Telp Pelanggan : " << info(P).no_telp << endl;
-         cout << "Alamat Pelanggan : " << info(P).alamat << endl;
-        cout << "Tipe Motor Pelanggan : " << info(P).tipe_motor << endl;
+        cout << "ID : " << info(P).id << endl;
+        cout << "Nama : " << info(P).nama << endl;
+        cout << "No. Telp : " << info(P).no_telp << endl;
+         cout << "Alamat : " << info(P).alamat << endl;
+        cout << "Tipe Motor : " << info(P).tipe_motor << endl;
         cout << endl;
         P = next(P);
     }

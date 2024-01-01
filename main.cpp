@@ -32,8 +32,9 @@ int main()
                 cout << "=================== SPAREPART ===================" << endl;
                 cout << "1. Tambah sparepart" << endl;
                 cout << "2. Lihat daftar sparepart" << endl;
-                cout << "3. Edit Data Sparepart" << endl;
-                cout << "4. Hapus Data Sparepart"<< endl;
+                cout << "3. Lihat daftar sparepart berdasarkan jumlah service" << endl;
+                cout << "4. Edit Data Sparepart" << endl;
+                cout << "5. Hapus Data Sparepart"<< endl;
                 cout << "0. Kembali" << endl;
 
                 cout << "Pilih menu: ";
@@ -58,30 +59,37 @@ int main()
                         cin >> infoS.harga;
                         cout << "Biaya service: ";
                         cin >> infoS.service_fee;
+                        infoS.trx_count = 0;
 
-                        insertSparepart(LS, alokasiSparepart(infoS));
+                        insertLast(LS, alokasiSparepart(infoS));
                     }
                 } else if (opsiS == 2) {
                     printInfoSparepart(LS);
-                } else if (opsiS == 3){
+                } else if (opsiS == 3) {
+                    printSparepartByMostService(LS);
+                } else if (opsiS == 4){
                     string kode;
                     cout << "masukkan kode : ";
                     cin >> kode;
                     editDataSparepart(LS, kode);
-                } else if(opsiS == 4){
+                } else if(opsiS == 5){
                     string kode;
                     cout << "masukkan kode : ";
                     cin >> kode;
                     address_sparepart sparepart = findSparepart(LS,kode);
-                    if (first(LS) == sparepart){
-                        deleteFirstSparepart(LS, sparepart);
-                    } else if (next(sparepart)== NULL) {
-                        deleteLastSparepart(LS, sparepart);
+                    if (sparepart != NULL) {
+                        if (first(LS) == sparepart){
+                            deleteFirstSparepart(LS, sparepart);
+                        } else if (next(sparepart)== NULL) {
+                            deleteLastSparepart(LS, sparepart);
+                        } else {
+                            address_sparepart prec;
+                            deleteAfterSparepart(LS, prec, sparepart);
+                        }
+                        printInfoSparepart(LS);
                     } else {
-                        address_sparepart prec;
-                        deleteAfterSparepart(LS, prec, sparepart);
+                        cout << "Sparepart tidak ditemukan" << endl;
                     }
-                    printInfoSparepart(LS);
                 }else if (opsiS == 0) {
                     cout << "Kembali..." << endl;
                 } else {
@@ -148,6 +156,32 @@ int main()
                     addTransaksi(LT, LS, adrTransaksi, adrPelanggan, nSparepart);
                 } else if (opsiT == 2) {
                     printInfoTransaksi(LT);
+                } else if (opsiT == 3) {
+                    string kode;
+                    cout << "Masukkan nomor transaksi : ";
+                    cin >> kode;
+                    editDataTransaksi(LT, LS, kode);
+                } else if (opsiT == 4) {
+                    string no_transaksi;
+                    cout << "Masukkan nomor transaksi : ";
+                    cin >> no_transaksi;
+                    address_transaksi transaksi = findTransaksi(LT, no_transaksi);
+                    if (transaksi != NULL) {
+                        if (transaksi == first(LT)) {
+                            deleteFirstTransaksi(LT, transaksi);
+                        } else if (next(transaksi) == NULL) {
+                            deleteLastTransaksi(LT, transaksi);
+                        } else {
+                            address_transaksi Prec = first(LT);
+                            while (next(Prec) != transaksi)
+                            {
+                                Prec = next(Prec);
+                            }
+                            deleteAfterTransaksi(LT, Prec, transaksi);
+                        }
+                    } else {
+                        cout << "Transaksi tidak ditemukan" << endl;
+                    }
                 } else if (opsiT == 0) {
                     cout << "Kembali..." << endl;
                 } else {
@@ -162,34 +196,46 @@ int main()
                 cout << "=================== PELANGGAN ===================" << endl;
                 printInfoPelanggan(LP);
                 cout << endl;
-                cout << "1. Edit Pelanggan" << endl;
-                cout << "2. Hapus Pelanggan" << endl;
+                cout << "1. Lihat Daftar Pelanggan" << endl;
+                cout << "2. Edit Pelanggan" << endl;
+                cout << "3. Hapus Pelanggan" << endl;
                 cout << "0. Kembali" << endl;
-                cout << "pilih menu : ";
+                cout << "Pilih menu : ";
                 cin >> opsiP;
                 if (opsiP == 1) {
+                  printInfoPelanggan(LP);
+                } else if (opsiP == 2) {
                     string nama, no_telp;
                     cout << "Masukkan Nama: ";
                     cin >> nama;
                     cout << "Masukkan No. Telp: ";
                     cin >> no_telp;
                     editDataPelanggan(LP, nama, no_telp);
-                } else if (opsiP == 2) {
+                } else if (opsiP == 3) {
                     string nama, no_telp;
                     cout << "Masukkan Nama : ";
                     cin >> nama;
                     cout << "Masukkan No. Telp : ";
                     cin >> no_telp;
                     address_pelanggan pelanggan = findPelanggan(LP, nama, no_telp);
-                    if (first(LP) == pelanggan){
-                        deleteFirstPelanggan(LP, pelanggan);
-                    } else if (next(pelanggan)== NULL) {
-                        deleteLastPelanggan(LP, pelanggan);
+                    if (pelanggan != NULL) {
+                        if (first(LP) == pelanggan){
+                            deleteFirstPelanggan(LP, pelanggan);
+                        } else if (next(pelanggan)== NULL) {
+                            deleteLastPelanggan(LP, pelanggan);
+                        } else {
+                            address_pelanggan Prec = first(LP);
+                            while (next(Prec) != pelanggan)
+                            {
+                                Prec = next(Prec);
+                            }
+                            deleteAfterPelanggan(LP, Prec, pelanggan);
+                        }
+                        printInfoPelanggan(LP);
                     } else {
-                        address_pelanggan prec;
-                        deleteAfterPelanggan(LP, prec, pelanggan);
+                        cout << "Pelanggan tidak ditemukan" << endl;
                     }
-                    printInfoPelanggan(LP);
+
                 } else if (opsiP == 0) {
                     cout << "Kembali..." << endl;
                 } else {

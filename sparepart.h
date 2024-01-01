@@ -17,8 +17,9 @@ struct sparepart {
     string kode;
     string nama;
     int harga;
-    int stok;
     int service_fee;
+    int stok;
+    int trx_count;
 };
 
 struct elmlist_sparepart {
@@ -35,12 +36,15 @@ struct list_sparepart {
 void createListSparepart(list_sparepart &L);
 address_sparepart alokasiSparepart(infotype_sparepart x);
 void dealokasiSparepart(address_sparepart &P);
-void insertSparepart(list_sparepart &L, address_sparepart P);
+void insertFirst(list_sparepart &L, address_sparepart P);
+void insertLast(list_sparepart &L, address_sparepart P);
+void insertAfter(list_sparepart &L, address_sparepart Prec, address_sparepart P);
 void deleteFirstSparepart(list_sparepart &L, address_sparepart &P);
 void deleteLastSparepart(list_sparepart &L, address_sparepart &P);
 void deleteAfterSparepart(list_sparepart &L, address_sparepart Prec, address_sparepart &P);
 address_sparepart editDataSparepart(list_sparepart &LP, string kode);
 address_sparepart findSparepart(list_sparepart L, string kode);
 void printInfoSparepart(list_sparepart L);
+void printSparepartByMostService(list_sparepart L);
 
 #endif // SPAREPART_H_INCLUDED

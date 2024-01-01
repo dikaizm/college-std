@@ -1,4 +1,5 @@
 #include "sparepart.h"
+#include "transaksi.h"
 
 void createListSparepart(list_sparepart &L)
 {
@@ -20,7 +21,7 @@ void dealokasiSparepart(address_sparepart &P)
     delete P;
 }
 
-void insertSparepart(list_sparepart &L, address_sparepart P)
+void insertLast(list_sparepart &L, address_sparepart P)
 {
     if (first(L) == NULL && last(L) == NULL)
     {
@@ -33,6 +34,40 @@ void insertSparepart(list_sparepart &L, address_sparepart P)
         prev(P) = last(L);
         last(L) = P;
     }
+}
+
+void insertFirst(list_sparepart &L, address_sparepart P)
+{
+    if (first(L) == NULL && last(L) == NULL)
+    {
+        first(L) = P;
+        last(L) = P;
+    }
+    else
+    {
+        prev(first(L)) = P;
+        next(P) = first(L);
+        first(L) = P;
+    }
+}
+
+void insertAfter(list_sparepart &L, address_sparepart Prec, address_sparepart P)
+{
+    if (first(L) != NULL && last(L) != NULL)
+    {
+        if (next(Prec) == NULL)
+        {
+            insertLast(L, P);
+        }
+        else
+        {
+            next(P) = next(Prec);
+            prev(P) = Prec;
+            prev(next(Prec)) = P;
+            next(Prec) = P;
+        }
+    }
+
 }
 
 void deleteFirstSparepart(list_sparepart &L, address_sparepart &P)
@@ -134,7 +169,7 @@ address_sparepart editDataSparepart(list_sparepart &LP, string kode){
         cout << "2. Harga Sparepart" << endl;
         cout << "3. Stok Sparepart" << endl;
         cout << "4. Service Fee Sparepart" << endl;
-        cout << "masukkan opsi :" ;
+        cout << "Masukkan opsi : ";
         cin >> opsis;
         if (opsis == 1){
             cout << "Nama Sparepart Baru : ";
@@ -154,4 +189,37 @@ address_sparepart editDataSparepart(list_sparepart &LP, string kode){
     } else {
         cout << "Data Sparepart tidak ditemukan" << endl;
     }
+}
+
+void printSparepartByMostService(list_sparepart L)
+{
+    address_sparepart P = first(L);
+    
+    // Sort sparepart by trx_count using insert and delete
+    list_sparepart sorted;
+    createListSparepart(sorted);
+    while (P != NULL)
+    {
+        address_sparepart Q = first(sorted);
+        address_sparepart R = NULL;
+        while (Q != NULL && info(P).trx_count < info(Q).trx_count)
+        {
+            R = Q;
+            Q = next(Q);
+        }
+
+        if (R == NULL)
+        {
+            insertFirst(sorted, P);
+        }
+        else
+        {
+            insertAfter(sorted, R, P);
+        }
+
+        P = next(P);
+    }
+
+    // Print sorted sparepart
+    printInfoSparepart(sorted);
 }
