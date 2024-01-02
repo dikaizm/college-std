@@ -151,15 +151,17 @@ void printInfoSparepart(list_sparepart L)
     cout << "=================== DAFTAR SPAREPART ===================" << endl;
     while (P != NULL)
     {
-        cout << "Kode Sparepart : " << info(P).kode << endl;
-        cout << "Nama Sparepart : " << info(P).nama << endl;
-        cout << "Harga Sparepart : " << info(P).harga << endl;
-        cout << "Stok Sparepart : " << info(P).stok << endl;
-        cout << "Service Fee Sparepart : " << info(P).service_fee << endl;
+        cout << "Kode : " << info(P).kode << endl;
+        cout << "Nama : " << info(P).nama << endl;
+        cout << "Harga : " << info(P).harga << endl;
+        cout << "Stok : " << info(P).stok << endl;
+        cout << "Service Fee : " << info(P).service_fee << endl;
+        cout << "Jumlah Transaksi : " << info(P).trx_count << endl;
         cout << endl;
         P = next(P);
     }
 }
+
 address_sparepart editDataSparepart(list_sparepart &LP, string kode){
     int opsis;
     address_sparepart sparepart = findSparepart(LP, kode);
@@ -194,8 +196,7 @@ address_sparepart editDataSparepart(list_sparepart &LP, string kode){
 void printSparepartByMostService(list_sparepart L)
 {
     address_sparepart P = first(L);
-    
-    // Sort sparepart by trx_count using insert and delete
+
     list_sparepart sorted;
     createListSparepart(sorted);
     while (P != NULL)
@@ -210,16 +211,15 @@ void printSparepartByMostService(list_sparepart L)
 
         if (R == NULL)
         {
-            insertFirst(sorted, P);
+            insertFirst(sorted, alokasiSparepart(info(P)));
         }
         else
         {
-            insertAfter(sorted, R, P);
+            insertAfter(sorted, R, alokasiSparepart(info(P)));
         }
 
         P = next(P);
     }
 
-    // Print sorted sparepart
     printInfoSparepart(sorted);
 }

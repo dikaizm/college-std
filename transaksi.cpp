@@ -104,8 +104,8 @@ void printInfoTransaksi(list_transaksi L)
         {
             cout << "No Transaksi : " << info(P).no_transaksi << "  |  ";
             cout << "Tanggal Transaksi : " << info(P).tgl_transaksi << endl;
-            cout << "ID Pelanggan : " << info(pelanggan(P)).id << "  |  ";
-            cout << "Nama Pelanggan : " << info(pelanggan(P)).nama << endl;
+            cout << "Nama Pelanggan : " << info(pelanggan(P)).nama << "  |  ";
+            cout << "Telepon Pelanggan : " << info(pelanggan(P)).no_telp << endl;
 
             cout << "Jumlah Sparepart : " << info(P).jumlah << endl;
             cout << "Daftar Sparepart : " << endl;
@@ -180,7 +180,7 @@ void addTransaksi(list_transaksi &L, list_sparepart &LS, address_transaksi trans
                 info(sparepart).stok -= 1;
                 info(sparepart).trx_count += 1;
 
-                addSparepartTransaksi(sparepart(transaksi), transaksi, sparepart);
+                insertSparepartTransaksi(sparepart(transaksi), transaksi, sparepart);
             }
         }
         else
@@ -192,7 +192,7 @@ void addTransaksi(list_transaksi &L, list_sparepart &LS, address_transaksi trans
     info(transaksi).total = info(transaksi).harga + info(transaksi).service;
 }
 
-void addSparepartTransaksi(list_sparepart_transaksi &LST, address_transaksi T, address_sparepart adrSparepart)
+void insertSparepartTransaksi(list_sparepart_transaksi &LST, address_transaksi T, address_sparepart adrSparepart)
 {
     address_sparepart_transaksi ST = alokasiSparepartTransaksi(adrSparepart);
 
@@ -311,7 +311,7 @@ void editDataTransaksi(list_transaksi &LT, list_sparepart LS, string kode)
                         info(sparepart).stok -= 1;
                         info(sparepart).trx_count += 1;
 
-                        addSparepartTransaksi(sparepart(transaksi), transaksi, sparepart);
+                        insertSparepartTransaksi(sparepart(transaksi), transaksi, sparepart);
                     }
                 }
                 else
@@ -396,4 +396,136 @@ void editDataTransaksi(list_transaksi &LT, list_sparepart LS, string kode)
     {
         cout << "Data transaksi tidak ditemukan" << endl;
     }
+}
+
+void deleteDataTransaksi(list_transaksi &LT, string no_transaksi)
+{
+    address_transaksi transaksi = findTransaksi(LT, no_transaksi);
+    if (transaksi != NULL)
+    {
+        address_sparepart_transaksi sparepart = first(sparepart(transaksi));
+        while (sparepart != NULL)
+        {
+            info(item(sparepart)).stok += 1;
+            info(item(sparepart)).trx_count -= 1;
+
+            sparepart = next(sparepart);
+        }
+
+        if (transaksi == first(LT))
+        {
+            deleteFirstTransaksi(LT, transaksi);
+        }
+        else if (next(transaksi) == NULL)
+        {
+            deleteLastTransaksi(LT, transaksi);
+        }
+        else
+        {
+            address_transaksi Prec = first(LT);
+            while (next(Prec) != transaksi)
+            {
+                Prec = next(Prec);
+            }
+            deleteAfterTransaksi(LT, Prec, transaksi);
+        }
+    }
+    else
+    {
+        cout << "Transaksi tidak ditemukan" << endl;
+    }
+}
+
+void deleteDataTransaksiByPelanggan(list_transaksi &LT, address_pelanggan pelanggan)
+{
+    int countDeleted = 0;
+    address_transaksi transaksi = first(LT);
+    while (transaksi != NULL)
+    {
+        if (pelanggan(transaksi) == pelanggan)
+        {
+            countDeleted++;
+            address_sparepart_transaksi sparepart = first(sparepart(transaksi));
+            while (sparepart != NULL)
+            {
+                info(item(sparepart)).stok += 1;
+                info(item(sparepart)).trx_count -= 1;
+
+                sparepart = next(sparepart);
+            }
+
+            if (transaksi == first(LT))
+            {
+                deleteFirstTransaksi(LT, transaksi);
+            }
+            else if (next(transaksi) == NULL)
+            {
+                deleteLastTransaksi(LT, transaksi);
+            }
+            else
+            {
+                address_transaksi Prec = first(LT);
+                while (next(Prec) != transaksi)
+                {
+                    Prec = next(Prec);
+                }
+                deleteAfterTransaksi(LT, Prec, transaksi);
+            }
+            dealokasiTransaksi(transaksi);
+        }
+
+        transaksi = next(transaksi);
+    }
+    cout << "Berhasil menghapus " << countDeleted << " transaksi dengan pelanggan " << info(pelanggan).nama << endl;
+}
+
+void deleteDataTransaksiBySparepart(list_transaksi &LT, address_sparepart sparepart)
+{
+    int countDeleted = 0;
+    address_transaksi transaksi = first(LT);
+    while (transaksi != NULL)
+    {
+        bool found = false;
+        address_sparepart_transaksi ST = first(sparepart(transaksi));
+        while (ST != NULL)
+        {
+            if (item(ST) == sparepart)
+            {
+                found = true;
+            }
+            if (found)
+            {
+                info(item(ST)).stok += 1;
+                info(item(ST)).trx_count -= 1;
+            }
+
+            ST = next(ST);
+        }
+        
+        if (found)
+        {
+            countDeleted++;
+            if (transaksi == first(LT))
+            {
+                deleteFirstTransaksi(LT, transaksi);
+            }
+            else if (next(transaksi) == NULL)
+            {
+                deleteLastTransaksi(LT, transaksi);
+            }
+            else
+            {
+                address_transaksi Prec = first(LT);
+                while (next(Prec) != transaksi)
+                {
+                    Prec = next(Prec);
+                }
+                deleteAfterTransaksi(LT, Prec, transaksi);
+            }
+            dealokasiTransaksi(transaksi);
+        }
+
+        transaksi = next(transaksi);
+    }
+    cout << "Berhasil menghapus " << countDeleted << " transaksi dengan sparepart " << info(sparepart).nama << endl;
 }

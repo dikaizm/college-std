@@ -56,10 +56,14 @@ void deleteAfterTransaksi(list_transaksi &L, address_transaksi Prec, address_tra
 address_transaksi findTransaksi(list_transaksi L, string nomor);
 void printInfoTransaksi(list_transaksi L);
 address_transaksi alokasiTransaksi(infotype_transaksi x);
+void dealokasiTransaksi(address_transaksi &P);
 address_sparepart_transaksi alokasiSparepartTransaksi(address_sparepart adrSparepart);
 void addTransaksi(list_transaksi &L, list_sparepart &LS, address_transaksi P, address_pelanggan Q, int nSparepart);
-void addSparepartTransaksi(list_sparepart_transaksi &LST, address_transaksi T, address_sparepart adrSparepart);
+void insertSparepartTransaksi(list_sparepart_transaksi &LST, address_transaksi T, address_sparepart adrSparepart);
 void editDataTransaksi(list_transaksi &LT, list_sparepart LS, string no_transaksi);
+void deleteDataTransaksi(list_transaksi &LT, string no_transaksi);
+void deleteDataTransaksiByPelanggan(list_transaksi &LT, address_pelanggan pelanggan);
+void deleteDataTransaksiBySparepart(list_transaksi &LT, address_sparepart sparepart);
 address_sparepart_transaksi findSparepartTransaksi(list_sparepart_transaksi L, string kode);
 void deleteAfterST(list_sparepart_transaksi &LST, address_sparepart_transaksi Prec, address_sparepart_transaksi &P);
 void deleteLastST(list_sparepart_transaksi &LST, address_sparepart_transaksi &P);
