@@ -128,3 +128,23 @@ address_pelanggan editDataPelanggan(list_pelanggan &LP, string nama, string no_t
         cout << "Data Pelanggan tidak ditemukan" << endl;
     }
 }
+void printFindP(list_pelanggan LP, string nama ,string notelp){
+    address_pelanggan P = findPelanggan(LP, nama, notelp);
+    if (P!=NULL){
+        cout << "================================================"<<endl;
+        cout << "ID : " << info(P).id << endl;
+        cout << "Nama : " << info(P).nama << endl;
+        cout << "No. Telp : " << info(P).no_telp << endl;
+        cout << "Alamat : " << info(P).alamat << endl;
+        cout << "Tipe Motor : " << info(P).tipe_motor << endl;
+        cout << endl;
+        cout << "================================================"<<endl;
+        cout << endl;
+    } else{
+        cout << "================================================"<<endl;
+        cout << "            ID Pelanggan Tidak Ditemukan        "<< endl;
+        cout << "================================================"<<endl;
+        cout << endl;
+    }
+}
+

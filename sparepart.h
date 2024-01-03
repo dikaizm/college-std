@@ -46,5 +46,5 @@ address_sparepart editDataSparepart(list_sparepart &LP, string kode);
 address_sparepart findSparepart(list_sparepart L, string kode);
 void printInfoSparepart(list_sparepart L);
 void printSparepartByMostService(list_sparepart L);
-
+void printFindSP(list_sparepart L, string kode);
 #endif // SPAREPART_H_INCLUDED

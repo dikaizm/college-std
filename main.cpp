@@ -15,7 +15,7 @@ int main()
     int opsi = -1;
     while (opsi != 00)
     {
-        cout << "=================== APLIKASI SERVICE MOTOR ===================" << endl;
+        cout << "=================== APLIKASI SERVICE MOTOR ====================" << endl;
         cout << "1. SPAREPART" << endl;
         cout << "2. TRANSAKSI" << endl;
         cout << "3. PELANGGAN" << endl;
@@ -24,7 +24,7 @@ int main()
         cout << "Pilih Menu: ";
         cin >> opsi;
 
-        cout << "==============================================================" << endl;
+        cout << "===============================================================" << endl;
         cout << endl;
 
         if (opsi == 1)
@@ -32,12 +32,13 @@ int main()
             int opsiS = -1;
             while (opsiS != 0)
             {
-                cout << "=================== SPAREPART ===================" << endl;
+                cout << "========================== SPAREPART ==========================" << endl;
                 cout << "1. Tambah sparepart" << endl;
                 cout << "2. Lihat daftar sparepart" << endl;
                 cout << "3. Lihat daftar sparepart berdasarkan jumlah service" << endl;
-                cout << "4. Edit Data Sparepart" << endl;
-                cout << "5. Hapus Data Sparepart" << endl;
+                cout << "4. Mencari Sparepart"<< endl;
+                cout << "5. Edit Data Sparepart" << endl;
+                cout << "6. Hapus Data Sparepart" << endl;
                 cout << "0. Kembali" << endl;
 
                 cout << "Pilih menu: ";
@@ -82,9 +83,17 @@ int main()
                     string kode;
                     cout << "Masukkan kode : ";
                     cin >> kode;
+                    cout <<endl;
+                    printFindSP(LS, kode);
+
+                }
+
+                else if (opsiS == 5)
+                {
+                    string kode;
                     editDataSparepart(LS, kode);
                 }
-                else if (opsiS == 5)
+                else if (opsiS == 6)
                 {
                     string kode;
                     cout << "Masukkan kode : ";
@@ -110,7 +119,12 @@ int main()
                             deleteAfterSparepart(LS, Prec, sparepart);
                         }
                         dealokasiSparepart(sparepart);
-                        printInfoSparepart(LS);
+                        cout << endl;
+                        cout << "================================================"<<endl;
+                        cout << "         Data Sparepart Berhasil Dihapus        "<<endl;
+                        cout << "================================================"<<endl;
+                        cout << endl;
+
                     }
                     else
                     {
@@ -134,11 +148,12 @@ int main()
             int opsiT = -1;
             while (opsiT != 0)
             {
-                cout << "=================== TRANSAKSI ===================" << endl;
+                cout << "========================== TRANSAKSI ==========================" << endl;
                 cout << "1. Tambah transaksi" << endl;
                 cout << "2. Lihat daftar transaksi" << endl;
-                cout << "3. Edit Data Transaksi" << endl;
-                cout << "4. Hapus Data Transaksi" << endl;
+                cout << "3. Mencari Transaksi"<< endl;
+                cout << "4. Edit Data Transaksi" << endl;
+                cout << "5. Hapus Data Transaksi" << endl;
                 cout << "0. Kembali" << endl;
 
                 cout << "Pilih menu: ";
@@ -198,14 +213,22 @@ int main()
                 {
                     printInfoTransaksi(LT);
                 }
-                else if (opsiT == 3)
+                else if (opsiT == 3){
+                    string ID;
+                    cout << "Masukkan ID Transaksi: ";
+                    cin >> ID;
+                    cout << endl;
+                    printFindT(LT,ID);
+                }
+                else if (opsiT == 4)
                 {
                     string kode;
                     cout << "Masukkan nomor transaksi : ";
                     cin >> kode;
+
                     editDataTransaksi(LT, LS, kode);
                 }
-                else if (opsiT == 4)
+                else if (opsiT == 5)
                 {
                     string no_transaksi;
                     cout << "Masukkan nomor transaksi : ";
@@ -228,11 +251,12 @@ int main()
             string nama, no_telp;
             while (opsiP != 0)
             {
-                cout << "=================== PELANGGAN ===================" << endl;
+                cout << "========================== PELANGGAN ==========================" << endl;
                 cout << "1. Tambah Pelanggan" << endl;
                 cout << "2. Lihat Daftar Pelanggan" << endl;
-                cout << "3. Edit Pelanggan" << endl;
-                cout << "4. Hapus Pelanggan" << endl;
+                cout << "3. Mencari Data Pelanggan" << endl;
+                cout << "4. Edit Pelanggan" << endl;
+                cout << "5. Hapus Pelanggan" << endl;
                 cout << "0. Kembali" << endl;
                 cout << "Pilih menu : ";
                 cin >> opsiP;
@@ -273,7 +297,16 @@ int main()
                 {
                     printInfoPelanggan(LP);
                 }
-                else if (opsiP == 3)
+                else if (opsiP == 3){
+                    string namaid, no_telp;
+                    cout << "Masukkan Nama : ";
+                    cin >> namaid;
+                    cout << "Masukkan No. Telp: ";
+                    cin >> no_telp;
+                    cout << endl;
+                    printFindP(LP, namaid, no_telp);
+                }
+                else if (opsiP == 4)
                 {
                     string nama, no_telp;
                     cout << "Masukkan Nama: ";
@@ -282,7 +315,7 @@ int main()
                     cin >> no_telp;
                     editDataPelanggan(LP, nama, no_telp);
                 }
-                else if (opsiP == 4)
+                else if (opsiP == 5)
                 {
                     string nama, no_telp;
                     cout << "Masukkan Nama : ";

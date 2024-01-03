@@ -32,11 +32,14 @@ void createListPelanggan(list_pelanggan &L);
 address_pelanggan alokasiPelanggan(infotype_pelanggan x);
 void dealokasiPelanggan(address_pelanggan &P);
 void insertPelanggan(list_pelanggan &L, address_pelanggan P);
+
 void deleteFirstPelanggan(list_pelanggan &L, address_pelanggan &P);
 void deleteLastPelanggan(list_pelanggan &L, address_pelanggan &P);
 void deleteAfterPelanggan(list_pelanggan &L, address_pelanggan Prec, address_pelanggan &P);
+
 address_pelanggan editDataPelanggan(list_pelanggan &LP, string nama, string no_telp);
 address_pelanggan findPelanggan(list_pelanggan L, string nama, string no_telp);
 void printInfoPelanggan(list_pelanggan L);
+void printFindP(list_pelanggan LP, string nama, string notelp);
 
 #endif // PELANGGAN_H_INCLUDED

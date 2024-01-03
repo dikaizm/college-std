@@ -148,7 +148,7 @@ address_sparepart findSparepart(list_sparepart L, string kode)
 void printInfoSparepart(list_sparepart L)
 {
     address_sparepart P = first(L);
-    cout << "=================== DAFTAR SPAREPART ===================" << endl;
+    cout << "=================== DAFTAR SPAREPART ==================" << endl;
     while (P != NULL)
     {
         cout << "Kode : " << info(P).kode << endl;
@@ -164,6 +164,10 @@ void printInfoSparepart(list_sparepart L)
 
 address_sparepart editDataSparepart(list_sparepart &LP, string kode){
     int opsis;
+    cout << "Masukkan kode : ";
+    cin >> kode;
+    cout <<endl;
+    printFindSP(LP,kode);
     address_sparepart sparepart = findSparepart(LP, kode);
     if (sparepart != NULL){
         cout << "Bagian yang ingin diedit :" << endl;
@@ -173,23 +177,46 @@ address_sparepart editDataSparepart(list_sparepart &LP, string kode){
         cout << "4. Service Fee Sparepart" << endl;
         cout << "Masukkan opsi : ";
         cin >> opsis;
+        cout<<endl;
         if (opsis == 1){
             cout << "Nama Sparepart Baru : ";
             cin >> info(sparepart).nama;
+            cout<<endl;
+            cout << "================================================"<<endl;
+            cout << "         Data Sparepart Berhasil diedit         "<<endl;
         } else if(opsis == 2){
             cout << "Harga Sparepart : ";
             cin >> info(sparepart).harga;
+            cout<<endl;
+            cout << "================================================"<<endl;
+            cout << "         Data Sparepart Berhasil diedit         "<<endl;
         } else if(opsis == 3){
             cout << "Stok Sparepart baru :" ;
             cin >> info(sparepart).stok;
+            cout<<endl;
+            cout << "================================================"<<endl;
+            cout << "         Data Sparepart Berhasil diedit         "<<endl;
         } else if (opsis == 4){
             cout << "Service Fee Sparepart baru :";
-            cin >> info(sparepart).service_fee;
+            cin >> info(sparepart).service_fee ;
+            cout<<endl;
+            cout << "================================================"<<endl;
+            cout << "         Data Sparepart Berhasil diedit         "<<endl;
         } else {
             cout << "opsi" << opsis << " tidak valid" << endl;
         }
-    } else {
-        cout << "Data Sparepart tidak ditemukan" << endl;
+         printFindSP(LP, kode);
+    }
+    cout << "Apakah Anda Ingin Mengedit lagi?"<<endl;
+    cout << "1. Ya" << endl;
+    cout << "2. Tidak" << endl;
+    int editlg;
+    cout << "Masukkan Pilihan Anda : ";
+    cin >> editlg ;
+    if (editlg == 1 ){
+        editDataSparepart(LP, kode);
+    } else if (editlg == 2) {
+        cout << endl;
     }
 }
 
@@ -222,4 +249,23 @@ void printSparepartByMostService(list_sparepart L)
     }
 
     printInfoSparepart(sorted);
+}
+void printFindSP(list_sparepart L, string kode){
+    address_sparepart P = findSparepart(L, kode);
+    if (P!=NULL){
+         cout << "================================================"<<endl;
+        cout << "Kode : " << info(P).kode << endl;
+        cout << "Nama : " << info(P).nama << endl;
+        cout << "Harga : " << info(P).harga << endl;
+        cout << "Stok : " << info(P).stok << endl;
+        cout << "Service Fee : " << info(P).service_fee << endl;
+        cout << "Jumlah Transaksi : " << info(P).trx_count << endl;
+        cout << "================================================"<<endl;
+        cout << endl;
+    } else{
+        cout << "================================================"<<endl;
+        cout << "           Kode Sparepart Tidak Ditemukan       "<< endl;
+        cout << "================================================"<<endl;
+        cout << endl;
+    }
 }

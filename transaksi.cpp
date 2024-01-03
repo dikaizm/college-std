@@ -20,6 +20,11 @@ address_transaksi alokasiTransaksi(infotype_transaksi x)
     return P;
 }
 
+void dealokasiTransaksi(address_transaksi &P)
+{
+    delete P;
+}
+
 address_sparepart_transaksi alokasiSparepartTransaksi(address_sparepart adrSparepart)
 {
     address_sparepart_transaksi S = new elmlist_sparepart_transaksi;
@@ -501,7 +506,7 @@ void deleteDataTransaksiBySparepart(list_transaksi &LT, address_sparepart sparep
 
             ST = next(ST);
         }
-        
+
         if (found)
         {
             countDeleted++;
@@ -528,4 +533,39 @@ void deleteDataTransaksiBySparepart(list_transaksi &LT, address_sparepart sparep
         transaksi = next(transaksi);
     }
     cout << "Berhasil menghapus " << countDeleted << " transaksi dengan sparepart " << info(sparepart).nama << endl;
+}
+void printFindT(list_transaksi L, string kode){
+     address_transaksi P = findTransaksi(L, kode);
+    if (P!=NULL){
+        cout << "No Transaksi : " << info(P).no_transaksi << "  |  ";
+        cout << "Tanggal Transaksi : " << info(P).tgl_transaksi << endl;
+        cout << "Nama Pelanggan : " << info(pelanggan(P)).nama << "  |  ";
+        cout << "Telepon Pelanggan : " << info(pelanggan(P)).no_telp << endl;
+        cout << "Jumlah Sparepart : " << info(P).jumlah << endl;
+        cout << "Daftar Sparepart : " << endl;
+        address_sparepart_transaksi ST = first(sparepart(P));
+        while (ST != NULL){
+               cout << "    "
+                     << "Kode : " << info(item(ST)).kode << endl;
+                cout << "    "
+                     << "Nama : " << info(item(ST)).nama << endl;
+                cout << "    "
+                     << "Harga : " << info(item(ST)).harga << endl;
+                cout << "    "
+                     << "Service : " << info(item(ST)).service_fee << endl;
+                cout << "    "
+                     << "------------" << endl;
+                ST = next(ST);
+            }
+            cout << "Total Harga : " << info(P).harga << endl;
+            cout << "Total Service : " << info(P).service << endl;
+            cout << "___________________________ +" << endl;
+            cout << "Total : " << info(P).total << endl;
+            cout << "--------------------------------------" << endl;
+    } else{
+        cout << "================================================"<<endl;
+        cout << "           Kode Sparepart Tidak Ditemukan       "<< endl;
+        cout << "================================================"<<endl;
+        cout << endl;
+    }
 }

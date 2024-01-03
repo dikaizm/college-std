@@ -49,17 +49,20 @@ struct list_transaksi {
 
 void createListTransaksi(list_transaksi &L);
 void createListSparepartTransaksi(list_sparepart_transaksi &LST);
+
 void insertLastTransaksi(list_transaksi &L, address_transaksi P);
+void insertSparepartTransaksi(list_sparepart_transaksi &LST, address_transaksi T, address_sparepart adrSparepart);
 void deleteFirstTransaksi(list_transaksi &L, address_transaksi &P);
 void deleteLastTransaksi(list_transaksi &L, address_transaksi &P);
 void deleteAfterTransaksi(list_transaksi &L, address_transaksi Prec, address_transaksi &P);
+
 address_transaksi findTransaksi(list_transaksi L, string nomor);
 void printInfoTransaksi(list_transaksi L);
 address_transaksi alokasiTransaksi(infotype_transaksi x);
 void dealokasiTransaksi(address_transaksi &P);
 address_sparepart_transaksi alokasiSparepartTransaksi(address_sparepart adrSparepart);
 void addTransaksi(list_transaksi &L, list_sparepart &LS, address_transaksi P, address_pelanggan Q, int nSparepart);
-void insertSparepartTransaksi(list_sparepart_transaksi &LST, address_transaksi T, address_sparepart adrSparepart);
+
 void editDataTransaksi(list_transaksi &LT, list_sparepart LS, string no_transaksi);
 void deleteDataTransaksi(list_transaksi &LT, string no_transaksi);
 void deleteDataTransaksiByPelanggan(list_transaksi &LT, address_pelanggan pelanggan);
@@ -68,5 +71,6 @@ address_sparepart_transaksi findSparepartTransaksi(list_sparepart_transaksi L, s
 void deleteAfterST(list_sparepart_transaksi &LST, address_sparepart_transaksi Prec, address_sparepart_transaksi &P);
 void deleteLastST(list_sparepart_transaksi &LST, address_sparepart_transaksi &P);
 void deleteFirstST(list_sparepart_transaksi &LST, address_sparepart_transaksi &P);
+void printFindT(list_transaksi L, string kode);
 
 #endif // TRANSAKSI_H_INCLUDED
