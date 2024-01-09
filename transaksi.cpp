@@ -257,7 +257,7 @@ address_sparepart_transaksi findSparepartTransaksi(list_sparepart_transaksi L, s
     address_sparepart_transaksi P = first(L);
     while (P != NULL)
     {
-        if (info(item(P)).kode != kode)
+        if (info(item(P)).kode == kode)
         {
             return P;
         }
@@ -269,132 +269,172 @@ address_sparepart_transaksi findSparepartTransaksi(list_sparepart_transaksi L, s
 void editDataTransaksi(list_transaksi &LT, list_sparepart LS, string kode)
 {
     int opsiT;
-    address_transaksi P;
 
     address_transaksi transaksi = findTransaksi(LT, kode);
     if (transaksi != NULL)
     {
-        cout << "Bagian yang ingin diedit :" << endl;
-        cout << "1. Tanggal Transaksi" << endl;
-        cout << "2. Tambah Sparepart" << endl;
-        cout << "3. Ganti Sparepart" << endl;
-        cout << "4. Hapus Sparepart" << endl;
-        cout << "Masukan opsi : ";
-        cin >> opsiT;
-        if (opsiT == 1)
+        opsiT = -1;
+        while (opsiT != 0)
         {
-            cout << "Tanggal Transaksi baru :" << endl;
-            cin >> info(P).tgl_transaksi;
-        }
-        else if (opsiT == 2)
-        {
-            int jumlah;
-            cout << "Masukkan jumlah sparepart baru : ";
-            cin >> jumlah;
-            for (int i = 0; i < jumlah; i++)
-            {
-                address_sparepart_transaksi P;
-                cout << "Masukkan Kode : ";
-                cin >> info(item(P)).kode;
-                address_sparepart sparepart = findSparepart(LS, info(item(P)).kode);
+            cout << "No Transaksi : " << info(transaksi).no_transaksi << "  |  ";
+            cout << "Tanggal Transaksi : " << info(transaksi).tgl_transaksi << endl;
+            cout << "Nama Pelanggan : " << info(pelanggan(transaksi)).nama << "  |  ";
+            cout << "Telepon Pelanggan : " << info(pelanggan(transaksi)).no_telp << endl;
 
-                if (sparepart != NULL)
+            cout << "Jumlah Sparepart : " << info(transaksi).jumlah << endl;
+            cout << "Daftar Sparepart : " << endl;
+
+            address_sparepart_transaksi ST = first(sparepart(transaksi));
+            while (ST != NULL)
+            {
+                cout << "    "
+                     << "Kode : " << info(item(ST)).kode << endl;
+                cout << "    "
+                     << "Nama : " << info(item(ST)).nama << endl;
+                cout << "    "
+                     << "Harga : " << info(item(ST)).harga << endl;
+                cout << "    "
+                     << "Service : " << info(item(ST)).service_fee << endl;
+                cout << "    "
+                     << "------------" << endl;
+
+                ST = next(ST);
+            }
+
+            cout << endl;
+            cout << "Bagian yang ingin diedit :" << endl;
+            cout << "1. Tanggal Transaksi" << endl;
+            cout << "2. Tambah Sparepart" << endl;
+            cout << "3. Ganti Sparepart" << endl;
+            cout << "4. Hapus Sparepart" << endl;
+            cout << "0. Kembali" << endl;
+
+            cout << "Masukan opsi : ";
+            cin >> opsiT;
+
+            if (opsiT == 1)
+            {
+                string new_tgl_tx = "";
+                cout << "Tanggal Transaksi baru : ";
+                cin >> new_tgl_tx;
+                info(transaksi).tgl_transaksi = new_tgl_tx;
+            }
+            else if (opsiT == 2)
+            {
+                int jumlah;
+                cout << "Masukkan jumlah sparepart baru : ";
+                cin >> jumlah;
+                for (int i = 0; i < jumlah; i++)
                 {
-                    if (info(sparepart).stok == 0)
+                    string kode;
+                    cout << "Masukkan Kode : ";
+                    cin >> kode;
+                    address_sparepart sparepart = findSparepart(LS, kode);
+
+                    if (sparepart != NULL)
                     {
-                        cout << "Stok " << info(sparepart).nama << " kosong";
+                        if (info(sparepart).stok == 0)
+                        {
+                            cout << "Stok " << info(sparepart).nama << " kosong";
+                        }
+                        else
+                        {
+                            cout << "Harga : " << info(sparepart).harga << endl;
+                            cout << "Service fee : " << info(sparepart).service_fee << endl;
+                            cout << "Stok : " << info(sparepart).stok << endl;
+                            cout << endl;
+
+                            info(transaksi).harga += info(sparepart).harga;
+                            info(transaksi).service += info(sparepart).service_fee;
+                            info(sparepart).stok -= 1;
+                            info(sparepart).trx_count += 1;
+
+                            insertSparepartTransaksi(sparepart(transaksi), transaksi, sparepart);
+                        }
                     }
                     else
                     {
-                        cout << "Harga : " << info(sparepart).harga << endl;
-                        cout << "Service fee : " << info(sparepart).service_fee << endl;
-                        cout << "Stok : " << info(sparepart).stok << endl;
-                        cout << endl;
-
-                        info(transaksi).harga += info(sparepart).harga;
-                        info(transaksi).service += info(sparepart).service_fee;
-                        info(sparepart).stok -= 1;
-                        info(sparepart).trx_count += 1;
-
-                        insertSparepartTransaksi(sparepart(transaksi), transaksi, sparepart);
+                        cout << "Sparepart " << kode << " tidak ditemukan!" << endl;
                     }
                 }
-                else
-                {
-                    cout << "Sparepart " << info(item(P)).kode << " tidak ditemukan!" << endl;
-                }
             }
-        }
-        else if (opsiT == 3)
-        {
-            string kode;
-            cout << "Masukkan kode sparepart yang ingin diganti : ";
-            cin >> kode;
-
-            address_sparepart_transaksi sparepart = findSparepartTransaksi(sparepart(transaksi), kode);
-            if (sparepart != NULL)
+            else if (opsiT == 3)
             {
-                cout << "Masukkan kode sparepart baru : ";
+                string kode;
+                cout << "Masukkan kode sparepart yang ingin diganti : ";
                 cin >> kode;
 
-                address_sparepart newSparepart = findSparepart(LS, kode);
-                if (newSparepart != NULL)
+                address_sparepart_transaksi sparepart = findSparepartTransaksi(sparepart(transaksi), kode);
+                if (sparepart != NULL)
                 {
-                    info(item(sparepart)).stok += 1;
-                    info(item(sparepart)).trx_count -= 1;
+                    cout << "Masukkan kode sparepart baru : ";
+                    cin >> kode;
 
-                    item(sparepart) = newSparepart;
-                    info(item(sparepart)).stok -= 1;
-                    info(item(sparepart)).trx_count += 1;
+                    address_sparepart newSparepart = findSparepart(LS, kode);
+                    if (newSparepart != NULL)
+                    {
+                        info(item(sparepart)).stok += 1;
+                        info(item(sparepart)).trx_count -= 1;
+
+                        item(sparepart) = newSparepart;
+                        info(item(sparepart)).stok -= 1;
+                        info(item(sparepart)).trx_count += 1;
+                    }
+                    else
+                    {
+                        cout << "Sparepart tidak ditemukan" << endl;
+                    }
                 }
                 else
                 {
                     cout << "Sparepart tidak ditemukan" << endl;
                 }
             }
-            else
+            else if (opsiT == 4)
             {
-                cout << "Sparepart tidak ditemukan" << endl;
-            }
-        }
-        else if (opsiT == 4)
-        {
-            string kode;
-            cout << "Masukkan kode sparepart yang ingin dihapus : ";
-            cin >> kode;
+                string kode;
+                cout << "Masukkan kode sparepart yang ingin dihapus : ";
+                cin >> kode;
 
-            address_sparepart_transaksi sparepart = findSparepartTransaksi(sparepart(transaksi), kode);
-            if (sparepart != NULL)
-            {
-                info(item(sparepart)).stok += 1;
-                info(item(sparepart)).trx_count -= 1;
+                address_sparepart_transaksi sparepart = findSparepartTransaksi(sparepart(transaksi), kode);
+                if (sparepart != NULL)
+                {
+                    info(item(sparepart)).stok += 1;
+                    info(item(sparepart)).trx_count -= 1;
 
-                if (sparepart == first(sparepart(transaksi)))
-                {
-                    deleteFirstST(sparepart(transaksi), sparepart);
-                }
-                else if (next(sparepart) == NULL)
-                {
-                    deleteLastST(sparepart(transaksi), sparepart);
+                    if (sparepart == first(sparepart(transaksi)))
+                    {
+                        deleteFirstST(sparepart(transaksi), sparepart);
+                    }
+                    else if (next(sparepart) == NULL)
+                    {
+                        deleteLastST(sparepart(transaksi), sparepart);
+                    }
+                    else
+                    {
+                        address_sparepart_transaksi Prec = first(sparepart(transaksi));
+                        while (next(Prec) != sparepart)
+                        {
+                            Prec = next(Prec);
+                        }
+                        deleteAfterST(sparepart(transaksi), Prec, sparepart);
+                    }
+
+                    cout << "Sparepart " << info(item(sparepart)).nama << " berhasil dihapus dari transaksi" << endl;
                 }
                 else
                 {
-                    address_sparepart_transaksi Prec = first(sparepart(transaksi));
-                    while (next(Prec) != sparepart)
-                    {
-                        Prec = next(Prec);
-                    }
-                    deleteAfterST(sparepart(transaksi), Prec, sparepart);
+                    cout << "Sparepart tidak ditemukan" << endl;
                 }
+            }
+            else if (opsiT == 0)
+            {
+                cout << "Kembali..." << endl;
             }
             else
             {
-                cout << "Sparepart tidak ditemukan" << endl;
+                cout << "Opsi " << opsiT << " tidak valid" << endl;
             }
-        }
-        else
-        {
-            cout << "Opsi" << opsiT << " tidak valid" << endl;
         }
     }
     else
@@ -434,6 +474,8 @@ void deleteDataTransaksi(list_transaksi &LT, string no_transaksi)
             }
             deleteAfterTransaksi(LT, Prec, transaksi);
         }
+
+        cout << "Transaksi " << info(transaksi).no_transaksi << " berhasil dihapus" << endl;
     }
     else
     {
@@ -534,9 +576,12 @@ void deleteDataTransaksiBySparepart(list_transaksi &LT, address_sparepart sparep
     }
     cout << "Berhasil menghapus " << countDeleted << " transaksi dengan sparepart " << info(sparepart).nama << endl;
 }
-void printFindT(list_transaksi L, string kode){
-     address_transaksi P = findTransaksi(L, kode);
-    if (P!=NULL){
+
+void printFindT(list_transaksi L, string kode)
+{
+    address_transaksi P = findTransaksi(L, kode);
+    if (P != NULL)
+    {
         cout << "No Transaksi : " << info(P).no_transaksi << "  |  ";
         cout << "Tanggal Transaksi : " << info(P).tgl_transaksi << endl;
         cout << "Nama Pelanggan : " << info(pelanggan(P)).nama << "  |  ";
@@ -544,28 +589,31 @@ void printFindT(list_transaksi L, string kode){
         cout << "Jumlah Sparepart : " << info(P).jumlah << endl;
         cout << "Daftar Sparepart : " << endl;
         address_sparepart_transaksi ST = first(sparepart(P));
-        while (ST != NULL){
-               cout << "    "
-                     << "Kode : " << info(item(ST)).kode << endl;
-                cout << "    "
-                     << "Nama : " << info(item(ST)).nama << endl;
-                cout << "    "
-                     << "Harga : " << info(item(ST)).harga << endl;
-                cout << "    "
-                     << "Service : " << info(item(ST)).service_fee << endl;
-                cout << "    "
-                     << "------------" << endl;
-                ST = next(ST);
-            }
-            cout << "Total Harga : " << info(P).harga << endl;
-            cout << "Total Service : " << info(P).service << endl;
-            cout << "___________________________ +" << endl;
-            cout << "Total : " << info(P).total << endl;
-            cout << "--------------------------------------" << endl;
-    } else{
-        cout << "================================================"<<endl;
-        cout << "           Kode Sparepart Tidak Ditemukan       "<< endl;
-        cout << "================================================"<<endl;
+        while (ST != NULL)
+        {
+            cout << "    "
+                 << "Kode : " << info(item(ST)).kode << endl;
+            cout << "    "
+                 << "Nama : " << info(item(ST)).nama << endl;
+            cout << "    "
+                 << "Harga : " << info(item(ST)).harga << endl;
+            cout << "    "
+                 << "Service : " << info(item(ST)).service_fee << endl;
+            cout << "    "
+                 << "------------" << endl;
+            ST = next(ST);
+        }
+        cout << "Total Harga : " << info(P).harga << endl;
+        cout << "Total Service : " << info(P).service << endl;
+        cout << "___________________________ +" << endl;
+        cout << "Total : " << info(P).total << endl;
+        cout << "--------------------------------------" << endl;
+    }
+    else
+    {
+        cout << "================================================" << endl;
+        cout << "           Kode Sparepart Tidak Ditemukan       " << endl;
+        cout << "================================================" << endl;
         cout << endl;
     }
 }

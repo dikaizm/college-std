@@ -13,13 +13,13 @@ int main()
     createListTransaksi(LT);
 
     int opsi = -1;
-    while (opsi != 00)
+    while (opsi != 0)
     {
         cout << "=================== APLIKASI SERVICE MOTOR ====================" << endl;
         cout << "1. SPAREPART" << endl;
         cout << "2. TRANSAKSI" << endl;
         cout << "3. PELANGGAN" << endl;
-        cout << "00. Keluar" << endl;
+        cout << "0. Keluar" << endl;
 
         cout << "Pilih Menu: ";
         cin >> opsi;
@@ -36,7 +36,7 @@ int main()
                 cout << "1. Tambah sparepart" << endl;
                 cout << "2. Lihat daftar sparepart" << endl;
                 cout << "3. Lihat daftar sparepart berdasarkan jumlah service" << endl;
-                cout << "4. Mencari Sparepart"<< endl;
+                cout << "4. Mencari Sparepart" << endl;
                 cout << "5. Edit Data Sparepart" << endl;
                 cout << "6. Hapus Data Sparepart" << endl;
                 cout << "0. Kembali" << endl;
@@ -83,9 +83,8 @@ int main()
                     string kode;
                     cout << "Masukkan kode : ";
                     cin >> kode;
-                    cout <<endl;
+                    cout << endl;
                     printFindSP(LS, kode);
-
                 }
 
                 else if (opsiS == 5)
@@ -101,6 +100,8 @@ int main()
                     address_sparepart sparepart = findSparepart(LS, kode);
                     if (sparepart != NULL)
                     {
+                        deleteDataTransaksiBySparepart(LT, sparepart);
+
                         if (first(LS) == sparepart)
                         {
                             deleteFirstSparepart(LS, sparepart);
@@ -120,11 +121,10 @@ int main()
                         }
                         dealokasiSparepart(sparepart);
                         cout << endl;
-                        cout << "================================================"<<endl;
-                        cout << "         Data Sparepart Berhasil Dihapus        "<<endl;
-                        cout << "================================================"<<endl;
+                        cout << "================================================" << endl;
+                        cout << "         Data Sparepart Berhasil Dihapus        " << endl;
+                        cout << "================================================" << endl;
                         cout << endl;
-
                     }
                     else
                     {
@@ -151,7 +151,7 @@ int main()
                 cout << "========================== TRANSAKSI ==========================" << endl;
                 cout << "1. Tambah transaksi" << endl;
                 cout << "2. Lihat daftar transaksi" << endl;
-                cout << "3. Mencari Transaksi"<< endl;
+                cout << "3. Mencari Transaksi" << endl;
                 cout << "4. Edit Data Transaksi" << endl;
                 cout << "5. Hapus Data Transaksi" << endl;
                 cout << "0. Kembali" << endl;
@@ -213,12 +213,13 @@ int main()
                 {
                     printInfoTransaksi(LT);
                 }
-                else if (opsiT == 3){
+                else if (opsiT == 3)
+                {
                     string ID;
                     cout << "Masukkan ID Transaksi: ";
                     cin >> ID;
                     cout << endl;
-                    printFindT(LT,ID);
+                    printFindT(LT, ID);
                 }
                 else if (opsiT == 4)
                 {
@@ -233,6 +234,7 @@ int main()
                     string no_transaksi;
                     cout << "Masukkan nomor transaksi : ";
                     cin >> no_transaksi;
+
                     deleteDataTransaksi(LT, no_transaksi);
                 }
                 else if (opsiT == 0)
@@ -297,7 +299,8 @@ int main()
                 {
                     printInfoPelanggan(LP);
                 }
-                else if (opsiP == 3){
+                else if (opsiP == 3)
+                {
                     string namaid, no_telp;
                     cout << "Masukkan Nama : ";
                     cin >> namaid;
@@ -363,12 +366,15 @@ int main()
                 }
             }
         }
+        else if (opsi == 0)
+        {
+            cout << "Terima kasih, sampai jumpa kembali" << endl;
+        }
         else
         {
             cout << "Opsi " << opsi << " tidak valid" << endl;
         }
     }
 
-    cout << "Terima kasih, sampai jumpa kembali" << endl;
     return 0;
 }
